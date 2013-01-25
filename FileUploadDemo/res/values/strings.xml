@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FileUploadDemo</string>
+    <string name="menu_photo">拍照</string>
+    <string name="menu_upload">上传</string>
+
+</resources>
