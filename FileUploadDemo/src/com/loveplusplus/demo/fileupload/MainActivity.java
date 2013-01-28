@@ -147,7 +147,8 @@ public class MainActivity extends Activity {
 			String json = gson.toJson(bean);
 
 			MessageHelper helper = new MessageHelper(MainActivity.this);
-			return helper.sendMsg(json);
+		//	return helper.sendMsg(json);//使用webservice
+			return helper.sendPost(json);//使用http post
 		}
 
 		@Override

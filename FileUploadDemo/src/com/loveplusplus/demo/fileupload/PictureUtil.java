@@ -25,7 +25,7 @@ public class PictureUtil {
 		Bitmap bm = getSmallBitmap(filePath);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+		bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
 		byte[] b = baos.toByteArray();
 		return Base64.encodeToString(b, Base64.DEFAULT);
 	}
@@ -78,7 +78,7 @@ public class PictureUtil {
 		BitmapFactory.decodeFile(filePath, options);
 
 		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 800, 480);
+		options.inSampleSize = calculateInSampleSize(options, 480, 800);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
