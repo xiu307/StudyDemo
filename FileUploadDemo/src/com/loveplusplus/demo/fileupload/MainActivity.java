@@ -9,10 +9,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,8 +24,12 @@ import com.google.gson.Gson;
 
 public class MainActivity extends Activity {
 
-	private String mCurrentPhotoPath;
+	
+	private String mCurrentPhotoPath;//图片路径
+	private String mCurrentVideoPath;//视频路径
 	private static final int REQUEST_TAKE_PHOTO = 0;
+	private static final int REQUEST_TAKE_VIDEO = 1;
+	private static final String TAG = "MainActivity";
 	public ProgressDialog progressDialog;
 	private ImageView mImageView;
 
@@ -53,11 +59,25 @@ public class MainActivity extends Activity {
 				// 取消照相后，删除已经创建的临时文件。
 				PictureUtil.deleteTempFile(mCurrentPhotoPath);
 			}
+		}else if(requestCode == REQUEST_TAKE_VIDEO){
+			if(resultCode == Activity.RESULT_OK){
+				
+				Uri uri=intent.getData();
+				mCurrentVideoPath=getRealPathFromURI(uri);
+				
+				Log.d(TAG, mCurrentVideoPath);
+			}
 		}
 
 	}
 
-
+	public String getRealPathFromURI(Uri contentUri) {
+	    String[] proj = { MediaStore.Images.Media.DATA };
+	    Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	    cursor.moveToFirst();
+	    return cursor.getString(column_index);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,8 +92,14 @@ public class MainActivity extends Activity {
 		case R.id.menu_photo:
 			takePhoto();
 			return true;
+		case R.id.menu_video:
+			takeVideo();
+			return true;
 		case R.id.menu_upload:
 			upload();
+			return true;
+		case R.id.menu_upload_video:
+			uploadVideo();
 			return true;
 
 		default:
@@ -81,6 +107,24 @@ public class MainActivity extends Activity {
 		}
 
 	}
+
+	private void uploadVideo() {
+		if (mCurrentVideoPath != null) {
+			FileUploadTask task = new FileUploadTask();
+			task.execute(mCurrentVideoPath,"1");
+		} else {
+			Toast.makeText(this, "请先点击录像按钮拍摄视频", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+
+
+	private void takeVideo() {
+		    Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		    startActivityForResult(takeVideoIntent, REQUEST_TAKE_VIDEO);
+	}
+
+
 
 	/**
 	 * 拍照
@@ -134,10 +178,18 @@ public class MainActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			String filePath = params[0];
-
-			
 			FileBean bean = new FileBean();
-			bean.setFileContent(PictureUtil.bitmapToString(filePath));
+			
+			String type=params[1];//上传图片还是视频，图片需要压缩
+			
+			String content;
+			if(null!=type&&"1".equals(type)){
+				content=VideoUtil.videoToString(filePath);
+			}else{
+				content=PictureUtil.bitmapToString(filePath);
+			}
+			bean.setFileContent(content);
+			
 			File f=new File(filePath);
 			String fileName=f.getName();
 			bean.setFileName(fileName);

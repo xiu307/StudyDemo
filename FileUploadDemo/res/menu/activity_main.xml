@@ -6,9 +6,19 @@
         android:showAsAction="always"
         android:title="@string/menu_photo"/>
     <item
+        android:id="@+id/menu_video"
+        android:icon="@drawable/ic_action_video"
+        android:showAsAction="always"
+        android:title="@string/menu_video"/>
+    <item
         android:id="@+id/menu_upload"
         android:icon="@drawable/ic_action_submit"
         android:showAsAction="always"
         android:title="@string/menu_upload"/>
+    <item
+        android:id="@+id/menu_upload_video"
+        android:icon="@drawable/ic_action_submit"
+        android:showAsAction="always"
+        android:title="@string/menu_upload_video"/>
 
 </menu>

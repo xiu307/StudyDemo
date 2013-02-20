@@ -3,6 +3,8 @@
 
     <string name="app_name">FileUploadDemo</string>
     <string name="menu_photo">拍照</string>
-    <string name="menu_upload">上传</string>
+    <string name="menu_video">视频</string>
+    <string name="menu_upload">上传图片</string>
+    <string name="menu_upload_video">上传视频</string>
 
 </resources>
