@@ -70,12 +70,11 @@ public class FileUploadServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 			msg = "error:" + e.getMessage();
+			
 		}
 		res.setCode(code);
 		res.setMsg(msg);
-
 		String json = gson.toJson(res);
-
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
