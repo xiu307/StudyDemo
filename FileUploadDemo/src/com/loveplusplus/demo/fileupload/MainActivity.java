@@ -73,9 +73,12 @@ public class MainActivity extends Activity {
 
 	public String getRealPathFromURI(Uri contentUri) {
 	    String[] proj = { MediaStore.Images.Media.DATA };
+	    
 	    Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+	    
 	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	    cursor.moveToFirst();
+	    
 	    return cursor.getString(column_index);
 	}
 
@@ -167,7 +170,7 @@ public class MainActivity extends Activity {
 
 		if (mCurrentPhotoPath != null) {
 			FileUploadTask task = new FileUploadTask();
-			task.execute(mCurrentPhotoPath);
+			task.execute(mCurrentPhotoPath,"0");
 		} else {
 			Toast.makeText(this, "请先点击拍照按钮拍摄照片", Toast.LENGTH_SHORT).show();
 		}

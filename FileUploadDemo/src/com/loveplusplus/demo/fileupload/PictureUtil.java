@@ -27,7 +27,9 @@ public class PictureUtil {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
 		byte[] b = baos.toByteArray();
+		
 		return Base64.encodeToString(b, Base64.DEFAULT);
+		
 	}
 
 	/**
