@@ -1,6 +1,11 @@
 学习Android过程中写的一些demo
 
-FileUploadDemo介绍Android通过webservice或Http post上传图片到服务器， FileUploadServerDemo是服务端代码
+
+1. FileUploadDemo介绍Android通过webservice或Http post上传图片到服务器， FileUploadServerDemo是服务端代码
+参考博客：[Android上传图片到服务器](http://my.eoe.cn/isnull/archive/617.html)
+
+2. HelloJni介绍Android NDK的入门
+参考博客：[Android NDK学习之隐藏敏感信息](http://my.eoe.cn/isnull/archive/754.html)
 
 
 LoaderDemo介绍Loader的一些使用方法,在一个activity(或者Fragment)使用多个Loader
