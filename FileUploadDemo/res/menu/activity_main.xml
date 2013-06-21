@@ -11,13 +11,13 @@
         android:showAsAction="always"
         android:title="@string/menu_video"/>
     <item
-        android:id="@+id/menu_upload"
-        android:icon="@drawable/ic_action_submit"
+        android:id="@+id/menu_upload_picture"
+        android:icon="@drawable/ic_action_upload_picture"
         android:showAsAction="always"
-        android:title="@string/menu_upload"/>
+        android:title="@string/menu_upload_picture"/>
     <item
         android:id="@+id/menu_upload_video"
-        android:icon="@drawable/ic_action_submit"
+        android:icon="@drawable/ic_action_upload_video"
         android:showAsAction="always"
         android:title="@string/menu_upload_video"/>
 
