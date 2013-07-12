@@ -57,7 +57,7 @@ public class MainActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			nearBy();
+			getLocation(this);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -65,9 +65,7 @@ public class MainActivity extends ListActivity {
 
 	}
 
-	private void nearBy() {
-		getLocation(this);
-	}
+	
 
 	private void requestServer(Map<String, String> map) {
 
@@ -112,7 +110,7 @@ public class MainActivity extends ListActivity {
 		// 取得效果做好的criteria
 		String provider = locationManager.getBestProvider(criteria, true);
 		// 得到坐标相关的信息
-		Location location = locationManager.getLastKnownLocation(provider);
+		//Location location = locationManager.getLastKnownLocation(provider);
 		// 注册一个周期性的更新，10min更新一次
 
 		locationManager.requestLocationUpdates(provider, 0, 1000 * 600,
@@ -122,30 +120,28 @@ public class MainActivity extends ListActivity {
 	private class getGpsLocationListner implements LocationListener {
 		@Override
 		public void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
-			Log.d(TAG, "Longitude: " + location.getLongitude());
-			Log.d(TAG, "Latitude: " + location.getLatitude());
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("latitude", String.valueOf(location.getLatitude()));
 			map.put("longitude", String.valueOf(location.getLongitude()));
 			map.put("user_id", PhoneUtil.getImei(MainActivity.this));
+			
 			requestServer(map);
 
 		}
 
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-
 		}
 
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
-
 		}
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		reqQueue.cancelAll(this);
 	}
 }

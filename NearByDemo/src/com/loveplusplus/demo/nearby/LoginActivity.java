@@ -115,4 +115,10 @@ public class LoginActivity extends Activity {
 		
 		reqQueue.add(jr);
 	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		reqQueue.cancelAll(this);
+	}
 }
