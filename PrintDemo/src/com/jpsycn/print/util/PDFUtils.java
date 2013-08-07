@@ -401,21 +401,12 @@ public class PDFUtils {
 			table1.addCell(ItextUtil.getCell(simfang12, "商标", p + q + r));
 			table1.addCell(ItextUtil.getCell(bf, map.get("product_brand"), s));
 
-			table1.addCell(ItextUtil.getCell(simfang12, "抽样数量", n + o1));
-			table1.addCell(ItextUtil.getCell(bf, map.get("sampling_number"), o2
-					+ o3));
+			
+			//
+			gg(map, simfang12, bf, table1);
+			
 
-			table1.addCell(ItextUtil.getCell(simfang12, "产品等级", p + q + r));
-			table1.addCell(ItextUtil.getCell(bf, map.get("product_level"), s));
-
-			table1.addCell(ItextUtil.getCell(simfang12, "抽样基数/批量", n + o1));
-			table1.addCell(ItextUtil.getCell(bf,
-					map.get("sampling_total_number"), o2 + o3));
-
-			table1.addCell(ItextUtil.getCell(simfang12, "标注执行标准/技术文件", p + q
-					+ r));
-			table1.addCell(ItextUtil.getCell(bf, map.get("product_standard"), s));
-
+			//
 			table1.addCell(ItextUtil.getCell(simfang12, "抽样日期", n + o1));
 			table1.addCell(ItextUtil.getCell(bf, map.get("samplint_date"), o2
 					+ o3));
@@ -558,6 +549,7 @@ public class PDFUtils {
 			 */
 
 			Font simfang12 = FontUtil.getFont(mContext, 12, "simfang.ttf");
+			
 			Font bf = FontUtil.getFont(mContext, 12, "simfang.ttf", Font.BOLD,
 					null);
 
@@ -685,17 +677,21 @@ public class PDFUtils {
 					ItextUtil.checked("中外合作", companyType), s));
 
 			table1.addCell(ItextUtil.getCell(20f, simfang12, "企业规模", n, 2));
+			
 			StringBuilder sb3 = new StringBuilder();
-			sb3.append("产值：");
+			sb3.append("人数：");
 			sb3.append(map.get("company_person_number") == null ? " " : map
 					.get("company_person_number"));
-			sb3.append("产量：");
+			sb3.append(" 产值：");
 			sb3.append(map.get("company_output_value") == null ? " " : map
 					.get("company_output_value"));
-			sb3.append("人数：");
+			sb3.append(" 产量：");
 			sb3.append(map.get("company_production") == null ? " " : map
 					.get("company_production"));
-			table1.addCell(ItextUtil.getCell(20f, simfang12, sb3.toString(), o1
+			//sb3.append("人数：10000 产值：5000万 产量：1000吨");
+			
+			Font simfang10 = FontUtil.getFont(mContext, 9, "simfang.ttf");
+			table1.addCell(ItextUtil.getCell(20f, simfang10, sb3.toString(), o1
 					+ o2 + o3));
 
 			table1.addCell(ItextUtil.getCell(20f, simfang12,
@@ -738,23 +734,9 @@ public class PDFUtils {
 			table1.addCell(ItextUtil.getCell(20f, bf, map.get("product_brand"),
 					s));
 
-			table1.addCell(ItextUtil.getCell(20f, simfang12, "抽样数量", n + o1));
-			table1.addCell(ItextUtil.getCell(20f, bf,
-					map.get("sampling_number"), o2 + o3));
-
-			table1.addCell(ItextUtil.getCell(20f, simfang12, "产品等级", p + q + r));
-			table1.addCell(ItextUtil.getCell(20f, bf, map.get("product_level"),
-					s));
-
-			table1.addCell(ItextUtil.getCell(20f, simfang12, "抽样基数/批量", n + o1));
-			table1.addCell(ItextUtil.getCell(20f, bf,
-					map.get("sampling_total_number"), o2 + o3));
-
-			table1.addCell(ItextUtil.getCell(20f, simfang12, "标注执行标准/技术文件", p
-					+ q + r));
-			table1.addCell(ItextUtil.getCell(20f, bf,
-					map.get("product_standard"), s));
-
+			//
+			gg(map, simfang12, bf, table1);
+			//
 			table1.addCell(ItextUtil.getCell(20f, simfang12, "抽样日期", n + o1));
 			table1.addCell(ItextUtil.getCell(20f, bf, map.get("samplint_date"),
 					o2 + o3));
@@ -879,6 +861,25 @@ public class PDFUtils {
 			Log.e(TAG, "", e);
 			return false;
 		}
+	}
+
+	private static void gg(Map<String, String> map, Font simfang12, Font bf,
+			PdfPTable table1) {
+		table1.addCell(ItextUtil.getCell(simfang12, "抽样数量", 23));
+		table1.addCell(ItextUtil.getCell(bf, map.get("sampling_number"), 11
+				));
+
+		table1.addCell(ItextUtil.getCell(simfang12, "产品等级", 11));
+		table1.addCell(ItextUtil.getCell(bf, map.get("product_level"), 10));
+
+		table1.addCell(ItextUtil.getCell(simfang12, "抽样基数/批量", 20));
+		table1.addCell(ItextUtil.getCell(bf,
+				map.get("sampling_total_number"), 20));
+
+		table1.addCell(ItextUtil.getCell(simfang12, "标注执行标准/技术文件", 23+11
+				));
+		table1.addCell(ItextUtil.getCell(bf, map.get("product_standard"), 61));
+		
 	}
 
 }
