@@ -136,7 +136,7 @@ public class ItextUtil {
 	public static String getBlackStr(int num) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < num; i++) {
-			sb.append("正");
+			sb.append("一");
 		}
 		return sb.toString();
 	}

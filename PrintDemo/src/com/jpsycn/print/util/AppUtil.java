@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class AppUtil {
 
+	
 	/**
 	 * 获取app的版本号
 	 * 

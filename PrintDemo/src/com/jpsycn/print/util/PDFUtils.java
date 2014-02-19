@@ -8,7 +8,9 @@ import java.net.MalformedURLException;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -167,7 +169,7 @@ public class PDFUtils {
 			}
 
 			table1.addCell(ItextUtil.getRemarkCell(simfang12, blackFont,
-					"备注（需要说明其他问题）：",bf, remark, cols, nn));
+					"备注（需要说明其他问题）：", bf, remark, cols, nn));
 
 			table1.addCell(ItextUtil.getMultiCell3(simfang12, blackFont,
 					"受检企业盖章：", "（买样不用盖章）", "年  月  日", 35, 7, 6 + 14 * 4 + 14));
@@ -187,6 +189,8 @@ public class PDFUtils {
 
 			zxing(map.get("zxing"), mContext, document);
 
+			stmp(mContext, document,220, 40);
+			
 			Paragraph bbb = new Paragraph(ItextUtil.getBlackStr(88), blackFont);
 			document.add(bbb);
 			// 关闭文档
@@ -401,10 +405,8 @@ public class PDFUtils {
 			table1.addCell(ItextUtil.getCell(simfang12, "商标", p + q + r));
 			table1.addCell(ItextUtil.getCell(bf, map.get("product_brand"), s));
 
-			
 			//
 			gg(map, simfang12, bf, table1);
-			
 
 			//
 			table1.addCell(ItextUtil.getCell(simfang12, "抽样日期", n + o1));
@@ -463,7 +465,7 @@ public class PDFUtils {
 			}
 
 			table1.addCell(ItextUtil.getRemarkCell(simfang12, blackFont,
-					"备注（需要说明其他问题）：",bf, remark, cols, nn));
+					"备注（需要说明其他问题）：", bf, remark, cols, nn));
 
 			table1.addCell(ItextUtil.getMultiCell3(simfang12, blackFont,
 					"受检单位对上述内容无异议", "受检单位签名（盖章）：", "年  月  日", 32, 1,
@@ -484,9 +486,10 @@ public class PDFUtils {
 					"2.选择许可证、QS、CCC等类别后，填写相应证书编号。3.从生产单位抽样受检单位栏不填。", simfang8);
 			document.add(r2);
 
+			
 			zxing(map.get("zxing"), mContext, document);
-
-			Paragraph bbb = new Paragraph(ItextUtil.getBlackStr(88), blackFont);
+			stmp(mContext, document,380, 40);
+			Paragraph bbb = new Paragraph(ItextUtil.getBlackStr(44), blackFont);
 			document.add(bbb);
 			// 步骤 5:关闭文档
 			document.close();
@@ -497,8 +500,26 @@ public class PDFUtils {
 		}
 	}
 
+	private static void stmp(Context mContext, Document document,int x,int y)
+			throws MalformedURLException, IOException, DocumentException {
+
+		Resources resources = mContext.getResources();
+		int identifier = resources.getIdentifier("stamp", "drawable", mContext.getPackageName());
+		Bitmap bitmap = BitmapFactory.decodeResource(resources,identifier);
+		
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		Image image = Image.getInstance(stream.toByteArray());
+		
+		Chunk c1 = new Chunk(image, x,y, false);
+		Paragraph pp = new Paragraph();
+		pp.add(c1);
+		document.add(pp);
+	}
+
 	private static void zxing(String zxing, Context mContext, Document document)
 			throws MalformedURLException, IOException, DocumentException {
+		
 		if (!TextUtils.isEmpty(zxing)) {
 			Bitmap bitmap = BarcodeCreater.creatBarcode(mContext, zxing, 100,
 					20, false);
@@ -549,7 +570,7 @@ public class PDFUtils {
 			 */
 
 			Font simfang12 = FontUtil.getFont(mContext, 12, "simfang.ttf");
-			
+
 			Font bf = FontUtil.getFont(mContext, 12, "simfang.ttf", Font.BOLD,
 					null);
 
@@ -677,7 +698,7 @@ public class PDFUtils {
 					ItextUtil.checked("中外合作", companyType), s));
 
 			table1.addCell(ItextUtil.getCell(20f, simfang12, "企业规模", n, 2));
-			
+
 			StringBuilder sb3 = new StringBuilder();
 			sb3.append("人数：");
 			sb3.append(map.get("company_person_number") == null ? " " : map
@@ -688,8 +709,8 @@ public class PDFUtils {
 			sb3.append(" 产量：");
 			sb3.append(map.get("company_production") == null ? " " : map
 					.get("company_production"));
-			//sb3.append("人数：10000 产值：5000万 产量：1000吨");
-			
+			// sb3.append("人数：10000 产值：5000万 产量：1000吨");
+
 			Font simfang10 = FontUtil.getFont(mContext, 9, "simfang.ttf");
 			table1.addCell(ItextUtil.getCell(20f, simfang10, sb3.toString(), o1
 					+ o2 + o3));
@@ -820,17 +841,18 @@ public class PDFUtils {
 					Font.NORMAL, BaseColor.WHITE);
 
 			table1.addCell(ItextUtil.getCell(simfang12, "备注", m + n, 2));
-			
+
 			StringBuilder sb2 = new StringBuilder();
 			sb2.append("《企业监督检查记录》登记情况：");
 			sb2.append(ItextUtil.checked(new String[] { "登记", "未登记" },
 					map.get("remark_1")));
 			sb2.append("\n");
 			sb2.append("其他情况：");
-			//sb2.append(map.get("remark_2") == null ? "" : map.get("remark_2"));
-			String ss=map.get("remark_2") == null ? "" : map.get("remark_2");
-			table1.addCell(ItextUtil.getCell2(simfang12,sb2.toString(),bf,ss, o1 + o2
-					+ o3 + p + q + r + s));
+			// sb2.append(map.get("remark_2") == null ? "" :
+			// map.get("remark_2"));
+			String ss = map.get("remark_2") == null ? "" : map.get("remark_2");
+			table1.addCell(ItextUtil.getCell2(simfang12, sb2.toString(), bf,
+					ss, o1 + o2 + o3 + p + q + r + s));
 
 			table1.addCell(ItextUtil.getMultiCell3(simfang12, blackFont,
 					"受检单位对上述内容无异议", "受检单位签名（盖章）：", "  年  月  日", 32, 1,
@@ -850,8 +872,8 @@ public class PDFUtils {
 			document.add(r1);
 
 			zxing(map.get("zxing"), mContext, document);
-
-			Paragraph bbb = new Paragraph(ItextUtil.getBlackStr(88), blackFont);
+			stmp(mContext, document,380, 40);
+			Paragraph bbb = new Paragraph(ItextUtil.getBlackStr(44), blackFont);
 			document.add(bbb);
 
 			// 步骤 5:关闭文档
@@ -866,20 +888,18 @@ public class PDFUtils {
 	private static void gg(Map<String, String> map, Font simfang12, Font bf,
 			PdfPTable table1) {
 		table1.addCell(ItextUtil.getCell(simfang12, "抽样数量", 23));
-		table1.addCell(ItextUtil.getCell(bf, map.get("sampling_number"), 11
-				));
+		table1.addCell(ItextUtil.getCell(bf, map.get("sampling_number"), 11));
 
 		table1.addCell(ItextUtil.getCell(simfang12, "产品等级", 11));
 		table1.addCell(ItextUtil.getCell(bf, map.get("product_level"), 10));
 
 		table1.addCell(ItextUtil.getCell(simfang12, "抽样基数/批量", 20));
-		table1.addCell(ItextUtil.getCell(bf,
-				map.get("sampling_total_number"), 20));
+		table1.addCell(ItextUtil.getCell(bf, map.get("sampling_total_number"),
+				20));
 
-		table1.addCell(ItextUtil.getCell(simfang12, "标注执行标准/技术文件", 23+11
-				));
+		table1.addCell(ItextUtil.getCell(simfang12, "标注执行标准/技术文件", 23 + 11));
 		table1.addCell(ItextUtil.getCell(bf, map.get("product_standard"), 61));
-		
+
 	}
 
 }
